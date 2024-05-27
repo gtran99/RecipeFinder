@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Choose {{ choice_type }}</h1>
+    <div class="choices">
+        {% for item in items %}
+            <div class="choice">
+                <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}">
+                <button onclick="location.href='{{ url_for('make_choice', choice_type=next_choice_type, choice=item.name) }}'">{{ item.name }}</button>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

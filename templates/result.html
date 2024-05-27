@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Recipe Finder</h1>
-    <button onclick="location.href='/choose_meat'">Get Started</button>
+    <h1>Recipes</h1>
+    <ul>
+        {% for recipe in recipes %}
+            <li>{{ recipe.title }}</li>
+        {% endfor %}
+    </ul>
+    <button onclick="location.href='/'">Start Over</button>
 </body>
 </html>
