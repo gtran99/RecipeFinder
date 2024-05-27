@@ -26,22 +26,25 @@ def home():
 
 @app.route('/choose_meat')
 def choose_meat():
-    return render_template('choice.html', choice_type='Meat', items=meats, next_choice_type='Veggie')
+    return render_template('choice.html', choice_type='Meat', items=meats, next_choice_type='choose_veggie')
 
-@app.route('/choose_veggie')
+@app.route('/choose_veggie', methods=['GET'])
 def choose_veggie():
     meat_choice = request.args.get('choice')
-    return render_template('choice.html', choice_type='Veggie', items=veggies, next_choice_type='Carbohydrate', previous_choice=meat_choice)
+    return render_template('choice.html', choice_type='Veggie', items=veggies, next_choice_type='choose_carbohydrate', previous_choice=meat_choice)
 
-@app.route('/choose_carbohydrate')
+@app.route('/choose_carbohydrate', methods=['GET'])
 def choose_carbohydrate():
-    meat_choice = request.args.get('choice')
-    veggie_choice = request.args.get('previous_choice')
-    return render_template('choice.html', choice_type='Carbohydrate', items=carbohydrates, next_choice_type='result', previous_choice=f"{meat_choice},{veggie_choice}")
+    meat_choice = request.args.get('previous_choice')
+    veggie_choice = request.args.get('choice')
+    previous_choices = f"{meat_choice},{veggie_choice}"
+    return render_template('choice.html', choice_type='Carbohydrate', items=carbohydrates, next_choice_type='result', previous_choice=previous_choices)
 
-@app.route('/result')
+@app.route('/result', methods=['GET'])
 def result():
-    meat_choice, veggie_choice = request.args.get('previous_choice').split(',')
+    previous_choices = request.args.get('previous_choice').split(',')
+    meat_choice = previous_choices[0]
+    veggie_choice = previous_choices[1]
     carbohydrate_choice = request.args.get('choice')
     ingredients = f"{meat_choice},{veggie_choice},{carbohydrate_choice}"
 
