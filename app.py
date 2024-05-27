@@ -7,16 +7,40 @@ API_KEY = 'your_spoonacular_api_key'
 
 # Define choices
 meats = [
-    {"name": "Chicken", "image": "chicken.jpg"},
     {"name": "Beef", "image": "beef.jpg"},
+    {"name": "Chicken", "image": "chicken.jpg"},
+    {"name": "Egg", "image": "egg.jpg"},
+    {"name": "Lentil", "image": "lentil.jpg"},
+    {"name": "Salmon", "image": "salmon.jpg"},
+    {"name": "Tofu", "image": "tofu.jpg"},
+    {"name": "Tuna", "image": "tuna.jpg"},
 ]
 veggies = [
+    {"name": "Avocado", "image": "avocado.jpg"},
+    {"name": "Bell Pepper", "image": "bell_pepper.jpg"},
+    {"name": "Bok Choy", "image": "bok_choy.jpg"},
     {"name": "Broccoli", "image": "broccoli.jpg"},
+    {"name": "Cabbage", "image": "cabbage.jpg"},
     {"name": "Carrot", "image": "carrot.jpg"},
+    {"name": "Cauliflower", "image": "cauliflower.jpg"},
+    {"name": "Corn", "image": "corn.jpg"},
+    {"name": "Cucumber", "image": "cucumber.jpg"},
+    {"name": "Garlic", "image": "garlic.jpg"},
+    {"name": "Green Onion", "image": "green_onion.jpg"},
+    {"name": "Mushroom", "image": "mushroom.jpg"},
+    {"name": "Okra", "image": "okra.jpg"},
+    {"name": "Onion", "image": "onion.jpg"},
+    {"name": "Spinach", "image": "spinach.jpg"},
+    {"name": "Tomato", "image": "tomato.jpg"},
 ]
 carbohydrates = [
+    {"name": "Chickpea", "image": "chickpea.jpg"},
+    {"name": "Oat", "image": "oat.jpg"},
+    {"name": "Pasta", "image": "pasta.jpg"},    
+    {"name": "Potato", "image": "rice.jpg"},
+    {"name": "Quinoa", "image": "quinoa.jpg"},    
     {"name": "Rice", "image": "rice.jpg"},
-    {"name": "Pasta", "image": "pasta.jpg"},
+    {"name": "Sweet Potato", "image": "sweet_potato.jpg"},    
 ]
 
 # Routes
