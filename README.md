@@ -11,5 +11,8 @@ A simple web application to find recipes based on ingredients using the Spoonacu
 2. Install the dependencies:
    pip install -r requirements.txt
 
-3. Run the application:
+3. Generate your unique API key:
+   Go to "https://spoonacular.com/food-api" and replace the value of API_KEY with the key found in your profile
+
+4. Run the application:
     python app.py
