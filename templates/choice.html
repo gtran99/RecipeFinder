@@ -8,17 +8,49 @@
 </head>
 <body>
     <h1>Choose {{ choice_type }}</h1>
-    <div class="choices">
-        {% for item in items %}
-            <div class="choice">
-                <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}">
-                {% if next_choice_type == 'result' %}
-                    <button onclick="location.href='{{ url_for(next_choice_type, choice=item.name, previous_choice=previous_choice) }}'">{{ item.name }}</button>
-                {% else %}
-                    <button onclick="location.href='{{ url_for(next_choice_type, choice=item.name, previous_choice=previous_choice) }}'">{{ item.name }}</button>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
+    <form id="choice-form" method="GET" action="{{ url_for(next_choice_type) }}">
+        <div class="choices">
+            {% for item in items %}
+                <div class="choice">
+                    <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}" loading="lazy">
+                    {% if choice_type == 'Veggie' %}
+                        <input type="checkbox" name="choices" value="{{ item.name }}" id="{{ item.name }}">
+                        <label for="{{ item.name }}">{{ item.name }}</label>
+                    {% else %}
+                        <input type="radio" name="choice" value="{{ item.name }}" id="{{ item.name }}">
+                        <label for="{{ item.name }}">{{ item.name }}</label>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        {% if choice_type == 'Veggie' %}
+            <button type="button" onclick="submitChoices()">Next</button>
+        {% else %}
+            <button type="submit">Next</button>
+        {% endif %}
+        <input type="hidden" name="previous_choice" value="{{ request.args.get('previous_choice', '') }}">
+    </form>
+    <a href="{{ url_for('list_' + choice_type.lower() + 's') }}">Edit {{ choice_type }} Options</a>
+    {% if choice_type == 'Veggie' %}
+    <script>
+        function submitChoices() {
+            const selectedChoices = [];
+            document.querySelectorAll('input[name="choices"]:checked').forEach((checkbox) => {
+                selectedChoices.push(checkbox.value);
+            });
+
+            if (selectedChoices.length > 3) {
+                alert("You can select up to 3 vegetables.");
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const previousChoice = urlParams.get('previous_choice');
+
+            const nextUrl = '{{ url_for("choose_carbohydrate") }}?previous_choice=' + encodeURIComponent(previousChoice) + '&choices=' + encodeURIComponent(selectedChoices.join(','));
+            window.location.href = nextUrl;
+        }
+    </script>
+    {% endif %}
 </body>
 </html>
