@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Meat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Choose Meat</h1>
+    <form method="POST">
+        <div class="choices">
+            {% for item in items %}
+            <div class="choice">
+                <label>
+                    <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}">
+                    <input type="radio" name="choice" value="{{ item.name }}" required>
+                    {{ item.name }}
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit">Next</button>
+    </form>
+</body>
+</html>
