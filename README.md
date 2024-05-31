@@ -1,6 +1,6 @@
 # Recipe Finder
 
-A simple web application to find recipes based on ingredients using the Spoonacular API.
+A web application which outputs 10 recipes based on your desired ingredients using the Spoonacular API.
 
 ## Setup
 
@@ -12,7 +12,7 @@ A simple web application to find recipes based on ingredients using the Spoonacu
    pip install -r requirements.txt
 
 3. Generate your unique API key:
-   Go to "https://spoonacular.com/food-api" and replace the value of API_KEY with the key found in your profile
+   Go to "https://spoonacular.com/food-api" and grab your API key. Create a .env file and create an API_KEY variable with the value of your API key. (Ex. API_KEY = 'abcdefg').
 
 4. Run the application:
     python app.py

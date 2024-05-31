@@ -7,9 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Welcome to Recipe Finder</h1>
+    <h1>Recipe Finder</h1>
+    <h3>This application uses the Spoonacular API and outputs 10 random recipes based off the meat, veggies and carb picked.</h3>
+    <h4>Example:</h4>
+    <img src="/static/images/example.png" style="width:auto; height:auto; border:5px solid black; margin:20px">
     <a href="{{ url_for('choose_meat') }}">
         <button>Get Started</button>
     </a>
+    <a id="edit" href="{{ url_for('list_meats') }}">Edit Meats</a>
+    <a id="edit" href="{{ url_for('list_veggies') }}">Edit Veggies</a>
+    <a id="edit" href="{{ url_for('list_carbohydrates') }}">Edit Carbs</a>
 </body>
 </html>

@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 load_dotenv()
 
-API_KEY = os.getenv("API_KEY")
+SPOONACULAR_API_KEY = os.getenv("API_KEY")
 
 # Define choices
 meats = [
@@ -78,7 +78,7 @@ def choose_veggies():
         user_choices['veggies'] = selected_veggies
         return redirect(url_for('choose_carb'))
     sorted_veggies = sorted(veggies, key=lambda x: x['name'])
-    return render_template('choose_veggie.html', items=sorted_veggies, item_type='Veggie')
+    return render_template('choose_veggies.html', items=sorted_veggies, item_type='Veggie')
 
 @app.route('/choose_carb', methods=['GET', 'POST'])
 def choose_carb():
@@ -97,14 +97,112 @@ def show_recipes():
     
     # Form the query
     ingredients = [meat] + veggies + [carb]
-    ingredients_str = ','.join(ingredients)
+    ingredients_str = ', '.join(ingredients)
     
-    url = f"https://api.spoonacular.com/recipes/findByIngredients?ingredients={ingredients_str}&number=10&apiKey={API_KEY}"
+    url = f"https://api.spoonacular.com/recipes/findByIngredients?ingredients={ingredients_str}&number=10&apiKey={SPOONACULAR_API_KEY}"
     
     response = requests.get(url)
     recipes = response.json()
     
-    return render_template('recipes.html', recipes=recipes)
+    return render_template('recipes.html', recipes=recipes, ingredients_str=ingredients_str)
+
+@app.route('/meats')
+def list_meats():
+    sorted_meats = sorted(meats, key=lambda x: x['name'])
+    return render_template('list.html', items=sorted_meats, item_type='Meat')
+
+@app.route('/meats/add', methods=['GET', 'POST'])
+def add_meat():
+    if request.method == 'POST':
+        new_meat = {
+            "id": get_next_id(meats),
+            "name": request.form['name'],
+            "image": request.form['image']
+        }
+        meats.append(new_meat)
+        return redirect(url_for('list_meats'))
+    return render_template('add.html', item_type='Meat')
+
+@app.route('/meats/edit/<int:id>', methods=['GET', 'POST'])
+def edit_meat(id):
+    meat = next((m for m in meats if m['id'] == id), None)
+    if request.method == 'POST' and meat:
+        meat['name'] = request.form['name']
+        meat['image'] = request.form['image']
+        return redirect(url_for('list_meats'))
+    return render_template('edit.html', item=meat, item_type='Meat')
+
+@app.route('/meats/delete/<int:id>', methods=['POST'])
+def delete_meat(id):
+    global meats
+    meats = [m for m in meats if m['id'] != id]
+    return redirect(url_for('list_meats'))
+
+# Repeat similar CRUD routes for veggies and carbohydrates
+
+@app.route('/veggies')
+def list_veggies():
+    sorted_veggies = sorted(veggies, key=lambda x: x['name'])
+    return render_template('list.html', items=sorted_veggies, item_type='Veggie')
+
+@app.route('/veggies/add', methods=['GET', 'POST'])
+def add_veggie():
+    if request.method == 'POST':
+        new_veggie = {
+            "id": get_next_id(veggies),
+            "name": request.form['name'],
+            "image": request.form['image']
+        }
+        veggies.append(new_veggie)
+        return redirect(url_for('list_veggies'))
+    return render_template('add.html', item_type='Veggie')
+
+@app.route('/veggies/edit/<int:id>', methods=['GET', 'POST'])
+def edit_veggie(id):
+    veggie = next((v for v in veggies if v['id'] == id), None)
+    if request.method == 'POST' and veggie:
+        veggie['name'] = request.form['name']
+        veggie['image'] = request.form['image']
+        return redirect(url_for('list_veggies'))
+    return render_template('edit.html', item=veggie, item_type='Veggie')
+
+@app.route('/veggies/delete/<int:id>', methods=['POST'])
+def delete_veggie(id):
+    global veggies
+    veggies = [v for v in veggies if v['id'] != id]
+    return redirect(url_for('list_veggies'))
+
+@app.route('/carbohydrates')
+def list_carbohydrates():
+    sorted_carbohydrates = sorted(carbohydrates, key=lambda x: x['name'])
+    return render_template('list.html', items=sorted_carbohydrates, item_type='Carbohydrate')
+
+@app.route('/carbohydrates/add', methods=['GET', 'POST'])
+def add_carbohydrate():
+    if request.method == 'POST':
+        new_carb = {
+            "id": get_next_id(carbohydrates),
+            "name": request.form['name'],
+            "image": request.form['image']
+        }
+        carbohydrates.append(new_carb)
+        return redirect(url_for('list_carbohydrates'))
+    return render_template('add.html', item_type='Carbohydrate')
+
+@app.route('/carbohydrates/edit/<int:id>', methods=['GET', 'POST'])
+def edit_carbohydrate(id):
+    carbohydrate = next((c for c in carbohydrates if c['id'] == id), None)
+    if request.method == 'POST' and carbohydrate:
+        carbohydrate['name'] = request.form['name']
+        carbohydrate['image'] = request.form['image']
+        return redirect(url_for('list_carbohydrates'))
+    return render_template('edit.html', item=carbohydrate, item_type='Carbohydrate')
+
+@app.route('/carbohydrates/delete/<int:id>', methods=['POST'])
+def delete_carbohydrate(id):
+    global carbohydrates
+    carbohydrates = [c for c in carbohydrates if c['id'] != id]
+    return redirect(url_for('list_carbohydrates'))
 
 if __name__ == '__main__':
     app.run(debug=True)
